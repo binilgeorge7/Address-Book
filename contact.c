@@ -22,14 +22,23 @@ Description : Address Book Project -
 
 void listContacts(struct AddressBook *addressBook) 
 {
-    printf("\t\t\t CONTACTS\n");
-    printf("\t\t -----------------------\n");
-    for(int i = 0; i < addressBook->contactCount; i++)
+    printf("\t\t\t\t\t\tCONTACTS\n");
+    printf("\t\t\t\t\t -----------------------\n");
+    /*for(int i = 0; i < addressBook->contactCount; i++)
     {
         printf("contact : %d\n", i + 1);  //prints contact No.
         display_contact(addressBook, i);  // function call for printing contact
     }
-    printf("---------------------------------------------------------\n");
+    printf("---------------------------------------------------------\n");*/
+    printf("_________________________________________________________________________________________________________________\n");
+    printf("|\t%-5s \t| \t%-15s | \t%-20s\t|\t %-30s |\n", "No", "Name", "Phone", "Email");
+    printf("=================================================================================================================\n");
+    for(int i = 0; i < addressBook->contactCount; i++)
+    {
+        printf("|\t%d\t|", i + 1);
+        display_contact(addressBook, i);
+        printf("\n");
+    }
     
 }
 
@@ -277,14 +286,25 @@ void searchbyname(struct AddressBook *addressBook)  //function definition for se
     printf("Enter the Name :");
     scanf("%[^\n]", name);  //reads name
     int flag = 0;
+    int count = 0; //to store index no
     //checks if name is present
     for(int i = 0; i < addressBook->contactCount; i++)
     {
         if(!(strcmp(addressBook->contacts[i].name, name))) 
         {
             flag =1; //to indicate name available
-            display_contact(addressBook, i); // display the contact by passing index
-            printf("---------------------------------------------------------\n");
+            count++;
+            if(count == 1)
+            {
+                printf("_________________________________________________________________________________________________________________\n");
+                printf("|\t%-5s \t| \t%-15s | \t%-20s\t|\t %-30s |\n", "No", "Name", "Phone", "Email");
+                printf("=================================================================================================================\n");
+            }
+            printf("|\t%d\t|", count); //to print index
+            display_contact(addressBook, i);
+            printf("\n");
+            //display_contact(addressBook, i); // display the contact by passing index
+            //printf("---------------------------------------------------------\n");
         }
     }
     if(flag == 0) //if name not pressent
@@ -305,8 +325,12 @@ int searchbyphone(struct AddressBook *addressBook) //function definition for sea
         if(!(strcmp(addressBook->contacts[i].phone, phone))) //if phone no matches
         {
             flag =1;
+            printf("_________________________________________________________________________________________________________________\n");
+            printf("|\t%-5s \t| \t%-15s | \t%-20s\t|\t %-30s |\n", "No", "Name", "Phone", "Email");
+            printf("=================================================================================================================\n");
+            printf("|\t1\t|"); //to print index
             display_contact(addressBook, i);
-            printf("---------------------------------------------------------\n");
+            printf("\n");
             return i; //since phone number is unique, returns index
         }
     }
@@ -329,8 +353,12 @@ int searchbyemail(struct AddressBook *addressBook)
         if(!(strcmp(addressBook->contacts[i].email, email))) //checks if entered email matches
         {
             flag =1;
-            display_contact(addressBook, i); //displays the contact
-            printf("---------------------------------------------------------\n");
+            printf("_________________________________________________________________________________________________________________\n");
+            printf("|\t%-5s \t| \t%-15s | \t%-20s\t|\t %-30s |\n", "No", "Name", "Phone", "Email");
+            printf("=================================================================================================================\n");
+            printf("|\t1\t|"); //to print index
+            display_contact(addressBook, i);
+            printf("\n");
             return i;  //since email is unique.           
         }
     }
@@ -358,10 +386,18 @@ int byname(struct AddressBook *addressBook)
             if(count == 1)
             {
                 printf("\n\t\tSelect the contact you want \n");
+                printf("\n");
+                printf("_________________________________________________________________________________________________________________\n");
+                printf("|\t%-5s \t| \t%-15s | \t%-20s\t|\t %-30s |\n", "No", "Name", "Phone", "Email");
+                printf("=================================================================================================================\n");
             }
-            printf("contact no : %d\n", count);  //prints the no of match contact
+            printf("|\t%d\t|", count); //to print index
+            display_contact(addressBook, i);
+            printf("\n");
+            /*printf("contact no : %d\n", count);  //prints the no of match contact
             display_contact(addressBook, i);  //displays contact
-            printf("---------------------------------------------------------\n");
+            printf("---------------------------------------------------------\n");*/
+
         }
     }
     if(count == 0) //if no contact is found with the entered name
@@ -387,10 +423,13 @@ int byname(struct AddressBook *addressBook)
 
 void display_contact(struct AddressBook* addressBook, int index)  //to display contact
 {
-            printf("---------------------------------------------------------\n");
+           /* printf("---------------------------------------------------------\n");
             printf("\t\tName  :%s\n", addressBook->contacts[index].name);
             printf("\t\tPhone :%s\n", addressBook->contacts[index].phone);
-            printf("\t\tEmail :%s\n", addressBook->contacts[index].email);
+            printf("\t\tEmail :%s\n", addressBook->contacts[index].email);*/
+            printf("\t%-15s\t|\t%-20s\t|\t%-30s\t|\n", addressBook->contacts[index].name, addressBook->contacts[index].phone, addressBook->contacts[index].email);
+            printf("_________________________________________________________________________________________________________________\n");
+            
 }
 
 void edit_field(struct AddressBook* addressBook, int index)
@@ -415,8 +454,12 @@ void edit_field(struct AddressBook* addressBook, int index)
             scanf(" %[^\n]", tempname);
             strcpy(addressBook->contacts[index].name, tempname);  //copies temporary name to structure
             printf("Name Edited.\n");
-            display_contact(addressBook, index);  //displays  edited contact
-            printf("---------------------------------------------------------\n");
+            printf("_________________________________________________________________________________________________________________\n");
+            printf("|\t%-5s \t| \t%-15s | \t%-20s\t |\t %-30s |\n", "No", "Name", "Phone", "Email");
+            printf("=================================================================================================================\n");
+            printf("|\t1\t|"); //to print index
+            display_contact(addressBook, index);
+            printf("\n");
             break;
 
             case 2:
@@ -428,8 +471,12 @@ void edit_field(struct AddressBook* addressBook, int index)
 
             strcpy(addressBook->contacts[index].phone, tempphone);  //copies phone number to structure
             printf("Phone no Edited.\n");
-            display_contact(addressBook, index); //display edited contact
-            printf("---------------------------------------------------------\n");
+            printf("_________________________________________________________________________________________________________________\n");
+            printf("|\t%-5s \t| \t%-15s | \t%-20s\t |\t %-30s |\n", "No", "Name", "Phone", "Email");
+            printf("=================================================================================================================\n");
+            printf("|\t1\t|"); //to print index
+            display_contact(addressBook, index);
+            printf("\n");
             break;
 
             case 3:
@@ -442,8 +489,12 @@ void edit_field(struct AddressBook* addressBook, int index)
 
             strcpy(addressBook->contacts[index].email, tempemail); //copies email to structure
             printf("Email Edited.\n");
-            display_contact(addressBook, index);   //display edited contact
-            printf("---------------------------------------------------------\n");
+            printf("_________________________________________________________________________________________________________________\n");
+            printf("|\t%-5s \t| \t%-15s | \t%-20s\t |\t %-30s |\n", "No", "Name", "Phone", "Email");
+            printf("=================================================================================================================\n");
+            printf("|\t1\t|"); //to print index
+            display_contact(addressBook, index);
+            printf("\n");
             break;
 
             case 4:
